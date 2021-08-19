@@ -1,0 +1,496 @@
+CREATE TABLE AKUN(
+    USERNAME            VARCHAR2(50),
+    NAMA                VARCHAR2(50),
+    JENIS_KELAMIN       CHAR(1),
+    NO_HP               INTEGER,
+    EMAIL               VARCHAR2(50),
+    PASSWORD            VARCHAR2(50),
+    CONSTRAINT AKUN_PK PRIMARY KEY (USERNAME) ENABLE
+);
+
+CREATE TABLE PEMBELI(
+    ID_PEMBELI          VARCHAR2(20),
+    ALAMAT_PEMBELI      VARCHAR2(50),
+    NO_KTP              INTEGER,
+    REKENING            INTEGER,
+    POIN_PEMBELI        INTEGER,
+    USERNAME            VARCHAR2(50),
+    CONSTRAINT PEMBELI_PK PRIMARY KEY (ID_PEMBELI) ENABLE,
+    CONSTRAINT PEMBELI_AKUN_FK FOREIGN KEY (USERNAME) REFERENCES AKUN (USERNAME) ON DELETE CASCADE ENABLE
+);
+
+CREATE TABLE PENJUAL(
+    ID_TOKO             VARCHAR2(20),
+    NAMA_TOKO           VARCHAR2(50),
+    ALAMAT_TOKO         VARCHAR2(100),
+    KATEGORI_TOKO       VARCHAR2(20),
+    REKENING_PENJUAL    INTEGER,
+    USERNAME            VARCHAR2(50),
+    CONSTRAINT PENJUAL_PK PRIMARY KEY (ID_TOKO) ENABLE,
+    CONSTRAINT PENJUAL_AKUN_FK FOREIGN KEY (USERNAME) REFERENCES AKUN (USERNAME) ON DELETE CASCADE ENABLE
+);
+
+CREATE TABLE KURIR(
+    ID_KURIR            VARCHAR2(20),
+    NAMA_KURIR          VARCHAR2(20),
+    DESKRIPSI_KURIR     VARCHAR2(100),
+    HARGA_KURIR         INTEGER,
+    JENIS_BARANG        VARCHAR2(20),
+    CONSTRAINT KURIR_PK PRIMARY KEY (ID_KURIR) ENABLE
+);
+
+CREATE TABLE PRODUK(
+    ID_PRODUK           VARCHAR2(20),
+    NAMA_PRODUK         VARCHAR2(20),
+    DESKRIPSI_PRODUK    VARCHAR2(100),
+    VARIANSI_PRODUK     VARCHAR2(20),
+    HARGA_PRODUK        INTEGER,
+    JUMLAH_PRODUK       INTEGER,
+    ID_TOKO             VARCHAR2(20),
+    CONSTRAINT PRODUK_PK PRIMARY KEY (ID_PRODUK) ENABLE,
+    CONSTRAINT PRODUK_PENJUAL_FK FOREIGN KEY (ID_TOKO) REFERENCES PENJUAL (ID_TOKO) ON DELETE CASCADE ENABLE
+);
+
+CREATE TABLE MENGORDER(
+    ID_ORDER            VARCHAR2(20),
+    ID_PRODUK           VARCHAR2(20),
+    ID_PEMBELI          VARCHAR2(20),
+    CONSTRAINT MENGORDER_PK PRIMARY KEY (ID_ORDER) ENABLE,
+    CONSTRAINT MENGORDER_PRODUK_FK FOREIGN KEY (ID_PRODUK) REFERENCES PRODUK (ID_PRODUK) ON DELETE CASCADE ENABLE,
+    CONSTRAINT MENGORDER_PEMBELI_FK FOREIGN KEY (ID_PEMBELI) REFERENCES PEMBELI(ID_PEMBELI) ON DELETE CASCADE ENABLE
+);
+
+CREATE TABLE TRANSAKSI(
+    ID_TRANSAKSI        VARCHAR2(20),
+    TOTAL_BAYAR         INTEGER,
+    METODE_BAYAR        VARCHAR2(20),
+    ALAMAT_PENGIRIMAN   VARCHAR2(50),
+    ID_ORDER            VARCHAR2(20),
+    ID_KURIR            VARCHAR2(20),
+    CONSTRAINT TRANSAKSI_PK PRIMARY KEY (ID_TRANSAKSI) ENABLE,
+    CONSTRAINT TRANSAKSI_MENGORDER_FK FOREIGN KEY (ID_ORDER) REFERENCES MENGORDER (ID_ORDER) ON DELETE CASCADE ENABLE,
+    CONSTRAINT TRANSAKSI_KURIR_FK FOREIGN KEY (ID_KURIR) REFERENCES KURIR (ID_KURIR) ON DELETE CASCADE ENABLE
+);
+
+CREATE TABLE REVIEW(
+    ID_REVIEW           VARCHAR2(50),
+    RATING              INTEGER,
+    TANGGAL             DATE,
+    KOMENTAR            VARCHAR2(100),
+    ID_TRANSAKSI        VARCHAR2(20),
+    CONSTRAINT REVIEW_PK PRIMARY KEY (ID_REVIEW) ENABLE,
+    CONSTRAINT REVIEW_TRANSAKSI_FK FOREIGN KEY (ID_TRANSAKSI) REFERENCES TRANSAKSI (ID_TRANSAKSI) ON DELETE CASCADE ENABLE
+);
+
+INSERT INTO AKUN (Username,Email,Password,Jenis_Kelamin,No_HP,Nama) VALUES ('ECM001','tly001@yahoo.com', '001ECM', 'L', 628001,'Budi');
+INSERT INTO AKUN (Username,Email,Password,Jenis_Kelamin,No_HP,Nama) VALUES ('ECM002','tly002@yahoo.com', '002ECM', 'P', 628002,'Anton');
+INSERT INTO AKUN (Username,Email,Password,Jenis_Kelamin,No_HP,Nama) VALUES ('ECM003','tly003@yahoo.com', '003ECM', 'L', 628003,'Caca');
+INSERT INTO AKUN (Username,Email,Password,Jenis_Kelamin,No_HP,Nama) VALUES ('ECM004','tly004@yahoo.com', '004ECM', 'P', 628004,'Dimas');
+INSERT INTO AKUN (Username,Email,Password,Jenis_Kelamin,No_HP,Nama) VALUES ('ECM005','tly005@yahoo.com', '005ECM', 'L', 628005,'Tubagus');
+INSERT INTO AKUN (Username,Email,Password,Jenis_Kelamin,No_HP,Nama) VALUES ('ECM006','tly006@yahoo.com', '006ECM', 'P', 628006,'Abu');
+INSERT INTO AKUN (Username,Email,Password,Jenis_Kelamin,No_HP,Nama) VALUES ('ECM007','tly007@yahoo.com', '007ECM', 'L', 628007,'Ajeng');
+INSERT INTO AKUN (Username,Email,Password,Jenis_Kelamin,No_HP,Nama) VALUES ('ECM008','tly008@yahoo.com', '008ECM', 'P', 628008,'Ki Made');
+INSERT INTO AKUN (Username,Email,Password,Jenis_Kelamin,No_HP,Nama) VALUES ('ECM009','tly009@yahoo.com', '009ECM', 'L', 628009,'Ucok');
+INSERT INTO AKUN (Username,Email,Password,Jenis_Kelamin,No_HP,Nama) VALUES ('ECM010','tly010@yahoo.com', '010ECM', 'P', 628010,'Unyil');
+
+INSERT INTO AKUN (Username,Email,Password,Jenis_Kelamin,No_HP,Nama) VALUES ('ECM011','tly011@yahoo.com', '011ECM', 'L', 628011,'Luffy');
+INSERT INTO AKUN (Username,Email,Password,Jenis_Kelamin,No_HP,Nama) VALUES ('ECM012','tly012@yahoo.com', '012ECM', 'P', 628012,'Thomas');
+INSERT INTO AKUN (Username,Email,Password,Jenis_Kelamin,No_HP,Nama) VALUES ('ECM013','tly013@yahoo.com', '013ECM', 'L', 628013,'Jerry');
+INSERT INTO AKUN (Username,Email,Password,Jenis_Kelamin,No_HP,Nama) VALUES ('ECM014','tly014@yahoo.com', '014ECM', 'P', 628014,'Rudolfo');
+INSERT INTO AKUN (Username,Email,Password,Jenis_Kelamin,No_HP,Nama) VALUES ('ECM015','tly015@yahoo.com', '015ECM', 'L', 628015,'Ferguso');
+INSERT INTO AKUN (Username,Email,Password,Jenis_Kelamin,No_HP,Nama) VALUES ('ECM016','tly016@yahoo.com', '016ECM', 'P', 628016,'Dadang');
+INSERT INTO AKUN (Username,Email,Password,Jenis_Kelamin,No_HP,Nama) VALUES ('ECM017','tly017@yahoo.com', '017ECM', 'L', 628017,'Rafael');
+INSERT INTO AKUN (Username,Email,Password,Jenis_Kelamin,No_HP,Nama) VALUES ('ECM018','tly018@yahoo.com', '018ECM', 'P', 628018,'Nguyen');
+INSERT INTO AKUN (Username,Email,Password,Jenis_Kelamin,No_HP,Nama) VALUES ('ECM019','tly019@yahoo.com', '019ECM', 'L', 628019,'Sukijan');
+INSERT INTO AKUN (Username,Email,Password,Jenis_Kelamin,No_HP,Nama) VALUES ('ECM020','tly020@yahoo.com', '020ECM', 'P', 628020,'Surti');
+
+INSERT INTO PEMBELI (ID_Pembeli,Username,Alamat_Pembeli,Rekening,No_KTP,Poin_Pembeli) VALUES ('PBELI01', 'ECM001', 'Jl. Mitrabatik', 1120021221, 19990602, null);
+INSERT INTO PEMBELI (ID_Pembeli,Username,Alamat_Pembeli,Rekening,No_KTP,Poin_Pembeli) VALUES ('PBELI02', 'ECM002', 'Jl. Setia Budi', 1120021234, 19990602, 1);
+INSERT INTO PEMBELI (ID_Pembeli,Username,Alamat_Pembeli,Rekening,No_KTP,Poin_Pembeli) VALUES ('PBELI03', 'ECM003', 'Jl. Bojong Soang', 1120021287, 19990602, 2);
+INSERT INTO PEMBELI (ID_Pembeli,Username,Alamat_Pembeli,Rekening,No_KTP,Poin_Pembeli) VALUES ('PBELI04', 'ECM004', 'Jl. Sukabirus', 1120021245, 19990602, 4);
+INSERT INTO PEMBELI (ID_Pembeli,Username,Alamat_Pembeli,Rekening,No_KTP,Poin_Pembeli) VALUES ('PBELI05', 'ECM005', 'Jl. Sukapura', 1120021290, 19990602, 10);
+INSERT INTO PEMBELI (ID_Pembeli,Username,Alamat_Pembeli,Rekening,No_KTP,Poin_Pembeli) VALUES ('PBELI06', 'ECM006', 'Jl. A.H Nasution', 1120021666, 19990666, 5);
+INSERT INTO PEMBELI (ID_Pembeli,Username,Alamat_Pembeli,Rekening,No_KTP,Poin_Pembeli) VALUES ('PBELI07', 'ECM007', 'Jl. Setia Budi', 1120021277, 19990677, 8);
+INSERT INTO PEMBELI (ID_Pembeli,Username,Alamat_Pembeli,Rekening,No_KTP,Poin_Pembeli) VALUES ('PBELI08', 'ECM008', 'Jl. Setia Budi', 1120021238, 19990682, 1);
+INSERT INTO PEMBELI (ID_Pembeli,Username,Alamat_Pembeli,Rekening,No_KTP,Poin_Pembeli) VALUES ('PBELI09', 'ECM009', 'Jl. Suksbirus', 1120021299, 19990699, 4);
+INSERT INTO PEMBELI (ID_Pembeli,Username,Alamat_Pembeli,Rekening,No_KTP,Poin_Pembeli) VALUES ('PBELI10', 'ECM010', 'Jl. Cijambe', 1120021210, 19990610, 1);
+
+INSERT INTO PEMBELI (ID_Pembeli,Username,Alamat_Pembeli,Rekening,No_KTP,Poin_Pembeli) VALUES ('PBELI31', 'ECM011', 'Jl. Cicaheum', 1120011221, 11990602, null);
+INSERT INTO PEMBELI (ID_Pembeli,Username,Alamat_Pembeli,Rekening,No_KTP,Poin_Pembeli) VALUES ('PBELI32', 'ECM012', 'Jl. Bojong Kaler', 1120021224, 22990602, 12);
+INSERT INTO PEMBELI (ID_Pembeli,Username,Alamat_Pembeli,Rekening,No_KTP,Poin_Pembeli) VALUES ('PBELI33', 'ECM013', 'Jl. Bojong Soang', 1120021244, 44990602, 12);
+INSERT INTO PEMBELI (ID_Pembeli,Username,Alamat_Pembeli,Rekening,No_KTP,Poin_Pembeli) VALUES ('PBELI34', 'ECM014', 'Jl. Cicaheum', 1120021335, 33990602, 44);
+INSERT INTO PEMBELI (ID_Pembeli,Username,Alamat_Pembeli,Rekening,No_KTP,Poin_Pembeli) VALUES ('PBELI35', 'ECM015', 'Jl. Sukapura', 1120021550, 55990602, 18);
+INSERT INTO PEMBELI (ID_Pembeli,Username,Alamat_Pembeli,Rekening,No_KTP,Poin_Pembeli) VALUES ('PBELI36', 'ECM016', 'Jl. A.H Nasution', 1120021677, 77990666, 35);
+INSERT INTO PEMBELI (ID_Pembeli,Username,Alamat_Pembeli,Rekening,No_KTP,Poin_Pembeli) VALUES ('PBELI37', 'ECM017', 'Jl. Setia Budi', 1120021667, 19660677, 20);
+INSERT INTO PEMBELI (ID_Pembeli,Username,Alamat_Pembeli,Rekening,No_KTP,Poin_Pembeli) VALUES ('PBELI38', 'ECM018', 'Jl. Setia Budi', 1120021778, 77990682, 14);
+INSERT INTO PEMBELI (ID_Pembeli,Username,Alamat_Pembeli,Rekening,No_KTP,Poin_Pembeli) VALUES ('PBELI39', 'ECM019', 'Jl. Suksbirus', 1120881299, 18890699, 24);
+INSERT INTO PEMBELI (ID_Pembeli,Username,Alamat_Pembeli,Rekening,No_KTP,Poin_Pembeli) VALUES ('PBELI40', 'ECM020', 'Jl. Cijambe', 1120020010, 19990010, 11);
+
+INSERT INTO KURIR (ID_KURIR,NAMA_KURIR,DESKRIPSI_KURIR,HARGA_KURIR,JENIS_BARANG)VALUES('KUR001','JNE','Pegiriman cepat dan terpercaya',11000,'Alat rumah tangga');
+INSERT INTO KURIR (ID_KURIR,NAMA_KURIR,DESKRIPSI_KURIR,HARGA_KURIR,JENIS_BARANG)VALUES('KUR002','MOTO EXPRESS','pengiriman cepat dan hemat',15000,'Alat Otomotif');
+INSERT INTO KURIR (ID_KURIR,NAMA_KURIR,DESKRIPSI_KURIR,HARGA_KURIR,JENIS_BARANG)VALUES('KUR003','OTO EXPRESS','pengiriman dengan keamanan barang yang terjamin',20000,'Alat Otomotif');
+INSERT INTO KURIR (ID_KURIR,NAMA_KURIR,DESKRIPSI_KURIR,HARGA_KURIR,JENIS_BARANG)VALUES('KUR004','GO FOOD','Pengiriman mudah dan praktis',10000,'Makanan');
+INSERT INTO KURIR (ID_KURIR,NAMA_KURIR,DESKRIPSI_KURIR,HARGA_KURIR,JENIS_BARANG)VALUES('KUR005','MODE EXPRESS','Baju yang akan dikirimkan tak akan rusak',12000,'Pakaian');
+INSERT INTO KURIR (ID_KURIR,NAMA_KURIR,DESKRIPSI_KURIR,HARGA_KURIR,JENIS_BARANG)VALUES('KUR006','KILAT ZUHED','pengiriman apapun zuhed solusinya',12000,'Apapun');
+INSERT INTO KURIR (ID_KURIR,NAMA_KURIR,DESKRIPSI_KURIR,HARGA_KURIR,JENIS_BARANG)VALUES('KUR007','ID9','Anti ngaret-ngaret club',16000,'Alat Otomotif');
+INSERT INTO KURIR (ID_KURIR,NAMA_KURIR,DESKRIPSI_KURIR,HARGA_KURIR,JENIS_BARANG)VALUES('KUR008','MUNJUL EXPRESS','Pengiriman mudah terpercaya',10000,'Makanan');
+INSERT INTO KURIR (ID_KURIR,NAMA_KURIR,DESKRIPSI_KURIR,HARGA_KURIR,JENIS_BARANG)VALUES('KUR009','VELDOM EXPRESS','Siap melayani pengiriman apapun',13000,'Apapun');
+INSERT INTO KURIR (ID_KURIR,NAMA_KURIR,DESKRIPSI_KURIR,HARGA_KURIR,JENIS_BARANG)VALUES('KUR010','PARABOT SKUY','Pengiriman perabot apapun untuk keperluan rumah tangga anda',12000,'Alat rumah tangga');
+
+INSERT INTO KURIR (ID_KURIR,NAMA_KURIR,DESKRIPSI_KURIR,HARGA_KURIR,JENIS_BARANG)VALUES('KUR011','RAINBOW EXPRESS','Pengiriman cepat dan mudah',13000,'Apapun');
+INSERT INTO KURIR (ID_KURIR,NAMA_KURIR,DESKRIPSI_KURIR,HARGA_KURIR,JENIS_BARANG)VALUES('KUR012','MJE','Pengiriman cepat dan murah',10000,'Apapun');
+INSERT INTO KURIR (ID_KURIR,NAMA_KURIR,DESKRIPSI_KURIR,HARGA_KURIR,JENIS_BARANG)VALUES('KUR013','GREEN EXPRESS','Pengiriman cepat tanpa barang rusak',11000,'Apapun');
+INSERT INTO KURIR (ID_KURIR,NAMA_KURIR,DESKRIPSI_KURIR,HARGA_KURIR,JENIS_BARANG)VALUES('KUR014','S86','Ingin kirim barang? SIAP 86!',13000,'Apapun');
+INSERT INTO KURIR (ID_KURIR,NAMA_KURIR,DESKRIPSI_KURIR,HARGA_KURIR,JENIS_BARANG)VALUES('KUR015','INDI EXPRESS','Pengiriman barang aman dan terpercaya',10000,'Apapun');
+INSERT INTO KURIR (ID_KURIR,NAMA_KURIR,DESKRIPSI_KURIR,HARGA_KURIR,JENIS_BARANG)VALUES('KUR016','SUPER','Pengiriman barang dengan kecepatan super!',10000,'Apapun');
+INSERT INTO KURIR (ID_KURIR,NAMA_KURIR,DESKRIPSI_KURIR,HARGA_KURIR,JENIS_BARANG)VALUES('KUR017','THUNDER EXPRESS','Barang anda akan kami kirim secepat kilat',12000,'Apapun');
+INSERT INTO KURIR (ID_KURIR,NAMA_KURIR,DESKRIPSI_KURIR,HARGA_KURIR,JENIS_BARANG)VALUES('KUR018','GOANDGO','Pengiriman cepat dan praktis',11000,'Apapun');
+INSERT INTO KURIR (ID_KURIR,NAMA_KURIR,DESKRIPSI_KURIR,HARGA_KURIR,JENIS_BARANG)VALUES('KUR019','MAMEN EXPRESS','Pengiriman cepat, mudah, dan tanpa khawatir barang rusak',11000,'Apapun');
+INSERT INTO KURIR (ID_KURIR,NAMA_KURIR,DESKRIPSI_KURIR,HARGA_KURIR,JENIS_BARANG)VALUES('KUR020','TAYO EXPRESS','Pengiriman barang dengan cepat dan dijamin puas',14000,'Apapun');
+
+INSERT INTO PENJUAL VALUES ('2001','Sukamaju','Bandung','Lucky Merchant',1301170604,'ECM001');
+INSERT INTO PENJUAL VALUES ('2002','Sukabirus','Bandung','Official Store',1301172354,'ECM002');
+INSERT INTO PENJUAL VALUES ('2003','Elfa Collection','Bandung','Gold Merchant',1301177865,'ECM003');
+INSERT INTO PENJUAL VALUES ('2004','Husni Store','Bandung','Star',1301179987,'ECM004');
+INSERT INTO PENJUAL VALUES ('2005','Barcelona Sport','Bandung','Star',1301170953,'ECM005');
+INSERT INTO PENJUAL VALUES ('2006','Yuyun Store','Bandung','Lucky Merchant',1301171254,'ECM006');
+INSERT INTO PENJUAL VALUES ('2007','James Cardin','Bandung',null,1301178874,'ECM007');
+INSERT INTO PENJUAL VALUES ('2008','Interhigh Store','Bandung',null,1301179312,'ECM008');
+INSERT INTO PENJUAL VALUES ('2009','Man in Store','Bandung','Lucky Merchant',1301178512,'ECM009');
+INSERT INTO PENJUAL VALUES ('2010','Jajang Store','Bandung','Star',1301177743,'ECM010');
+
+INSERT INTO PENJUAL VALUES ('2011','Mi Store','Bandung','Lucky Merchant',1311170604,'ECM011');
+INSERT INTO PENJUAL VALUES ('2012','Oppo Store','Jakarta','Official Store',2301172354,'ECM012');
+INSERT INTO PENJUAL VALUES ('2013','Apple Store','Tasikmalaya','Gold Merchant',5301177865,'ECM013');
+INSERT INTO PENJUAL VALUES ('2014','Sony Store','Surabaya','Star',1301179387,'ECM014');
+INSERT INTO PENJUAL VALUES ('2015','Huawei Store','Depok','Star',1301170953,'ECM015');
+INSERT INTO PENJUAL VALUES ('2016','Nokia Store','Tanggerang','Lucky Merchant',1321171254,'ECM016');
+INSERT INTO PENJUAL VALUES ('2017','Samsung Store','Papua',null,1301178894,'ECM017');
+INSERT INTO PENJUAL VALUES ('2018','Lenovo Store','Aceh',null,1301179992,'ECM018');
+INSERT INTO PENJUAL VALUES ('2019','Meizu Store','Dewata','Lucky Merchant',1312178512,'ECM019');
+INSERT INTO PENJUAL VALUES ('2020','Motorolla Store','Garut','Star',1301177433,'ECM020');
+
+INSERT INTO PENJUAL VALUES ('2021','Tmart','Bandung','Lucky Merchant',1301171604,'ECM001');
+INSERT INTO PENJUAL VALUES ('2022','TJMart','Bandung','Official Store',1301122354,'ECM002');
+INSERT INTO PENJUAL VALUES ('2023','Student Mart','Bandung','Gold Merchant',3301177865,'ECM003');
+INSERT INTO PENJUAL VALUES ('2024','AfroMart','Ciamis','Star',1301179984,'ECM004');
+INSERT INTO PENJUAL VALUES ('2025','IndoApril','Cicaheum','Star',1301175953,'ECM005');
+INSERT INTO PENJUAL VALUES ('2026','Martabak Holand','Jakarta','Lucky Merchant',1301671254,'ECM006');
+INSERT INTO PENJUAL VALUES ('2027','PStore','Bekasi',null,1301178878,'ECM007');
+INSERT INTO PENJUAL VALUES ('2028','Kedai HP','Bogor',null,1301179372,'ECM008');
+INSERT INTO PENJUAL VALUES ('2029','Telyu Store','Jatinagor','Lucky Merchant',1391178512,'ECM009');
+INSERT INTO PENJUAL VALUES ('2030','SoeJo','Bandung','Star',1301170743,'ECM010');
+
+INSERT INTO PENJUAL VALUES ('2031','Warkop DKI','Bandung','Lucky Merchant',1301111604,'ECM011');
+INSERT INTO PENJUAL VALUES ('2032','Pancong','Bandung','Official Store',1301172224,'ECM012');
+INSERT INTO PENJUAL VALUES ('2033','Kid Love','Bandung','Gold Merchant',1301173365,'ECM013');
+INSERT INTO PENJUAL VALUES ('2034','Treasure Hunt','Bandung','Star',1301174487,'ECM014');
+INSERT INTO PENJUAL VALUES ('2035','Nike Sport','Bandung','Star',1301170553,'ECM015');
+INSERT INTO PENJUAL VALUES ('2036','Adidas Sport','Bandung','Lucky Merchant',6601171254,'ECM016');
+INSERT INTO PENJUAL VALUES ('2037','Airwalk Store','Bandung',null,1301177874,'ECM017');
+INSERT INTO PENJUAL VALUES ('2038','Supreme','Bandung',null,1301179388,'ECM018');
+INSERT INTO PENJUAL VALUES ('2039','DC USA','Bandung','Lucky Merchant',9901178512,'ECM019');
+INSERT INTO PENJUAL VALUES ('2040','LV','Bandung','Star',1301100743,'ECM020');
+
+insert into produk values ('PRK001', 'Adidas Predator', 'sepatu bola Adidas predator komponen Ori, Bahan Lentur, Nyaman di Pakai', 'Sepatu', 160000, 15, '2001');
+insert into produk values ('PRK002', 'Polo', 'Warna merah, nyaman dipakai, cocok dipakai untuk bepergian', 'Baju', 85000, 20, '2002');
+insert into produk values ('PRK003', 'Crocodile', 'kemeja pola kotak-kotak, lengan pendek', 'Kemeja', 90000, 15, '2003');
+insert into produk values ('PRK004', 'Vampode', 'Pomade Vampode dibuat dengan bahan-bahan alami yang menyehatkan dan merawat rambut', 'Pomade', 60000, 15, '2004');
+insert into produk values ('PRK005', 'Nike Mercurial', 'warna putih, bahan lentur, nyaman dipakai', 'Sepatu', 360000, 23, '2005');
+insert into produk values ('PRK006', 'Lois', 'celana jeans, ready all size, warna biru', 'Celana', 300000, 25, '2006');
+insert into produk values ('PRK007', 'Boss', 'jas warna hitam, nyaman dipakai, cocok dipakai untuk pesta', 'jas', 350000, 15, '2007');
+insert into produk values ('PRK008', 'Faber Castell', '1 set alat tulis bersama dengan tempat pensil', 'Peralatan sekolah', 90000, 42, '2008');
+insert into produk values ('PRK009', 'Clear', 'Shampoo anti ketombe', 'Peralatan Pria', 70000, 38, '2009');
+insert into produk values ('PRK010', 'Beng-Beng', '1 kardus wafer sandwich berlapis coklat, dengan rice crispy', 'Makanan', 100000, 25, '2010');
+insert into produk values ('PRK011', 'Nike Anti-Predator', 'Sepatu futsal yang nyaman dipakai berlari', 'Sepatu', 1950000, 15, '2001');
+insert into produk values ('PRK012', 'Polo Strike', 'Kemeja nyaman dengan teknologi clima-cool', 'Kemeja', 65000, 20, '2001');
+insert into produk values ('PRK013', 'Aligathor Shirt', 'kemeja branded dengan lengan pendek', 'Kemeja', 90000, 15, '2005');
+insert into produk values ('PRK014', 'Pompadour', 'Pomade dengan warna biru', 'Pomade', 65000, 15, '2004');
+insert into produk values ('PRK015', 'Adidas AntiMercurial', 'Sepatu futsal masa kini dengan sensor panas', 'Sepatu', 3600000, 23, '2005');
+insert into produk values ('PRK016', 'Watchout! Grenish', 'Jaket trendy masakini', 'Jaket', 500000, 25, '2007');
+insert into produk values ('PRK017', 'Daniel W Smartwatch', 'Smartwatch terbaru dari Daniel W', 'Jam Tangan', 3500000, 15, '2007');
+insert into produk values ('PRK018', 'Xiaomi MI8', 'Smartphone Flagship dari Xiaomi', 'Handphone', 9000000, 42, '2010');
+insert into produk values ('PRK019', 'Esia Hidayah', 'Handphone dengan fitur pengingat solat', 'Handphone', 700000, 38, '2009');
+insert into produk values ('PRK020', 'Pringles', 'Kentang goreng yang gurih dan renyah', 'Makanan', 10000, 25, '2010');
+
+insert into produk values ('PRK021', 'Baso 24', 'Baso boraks kesukaan keluarga', 'Makanan', 10000, 25, '2010');
+insert into produk values ('PRK022', 'Mito s8', 'Smart phone canggih dari masa depan', 'Handphone', 12500000, 3, '2009');
+insert into produk values ('PRK070', 'Z.clo we are family', 'Baju hasil desainer ternama', 'Baju', 100000, 25, '2007');
+insert into produk values ('PRK023', 'Z.clo were family', 'Baju hasil desainer ternama', 'Baju', 100000, 25, '2007');
+insert into produk values ('PRK024', 'ZHD.clo wakwaw', 'Baju hasil desainer ternama', 'Baju', 100000, 25, '2007');
+insert into produk values ('PRK025', 'Basreng kopgen', 'Basreng favorite anak-anak', 'Makanan',5000, 100, '2010');
+insert into produk values ('PRK026', 'Tuak white coffee', 'Enak gk bikin kembung', 'Makanan', 6000, 100, '2010');
+insert into produk values ('PRK027', 'ZHD.clo freedom', 'Baju hasil desainer ternama', 'Baju', 150000, 2, '2007');
+insert into produk values ('PRK028', 'ZHD.clo we are 24', 'Baju hasil desainer ternama', 'Baju', 100000, 25, '2007');
+insert into produk values ('PRK029', 'Chymyn', 'Micin bukan kaleng-kaleng', 'Makanan', 10000, 50, '2010');
+insert into produk values ('PRK030', 'Ager ager mang oboy', 'kenyal kenyal bernutrisi', 'Makanan', 5000, 25, '2010');
+insert into produk values ('PRK031', 'Chingcau 24', 'cingcau bukan sekedar cingcau', 'Makanan', 10000, 25, '2010');
+insert into produk values ('PRK032', 'ZHD.clo Merak oaoa', 'Baju hasil desainer ternama', 'Baju', 100000, 25, '2007');
+insert into produk values ('PRK033', 'Ayam geprek ZHD', 'Ayam geprek pedesnya bukan kaleng kaleng', 'Makanan', 30000, 25, '2010');
+insert into produk values ('PRK034', 'Kopi cup cap bango', 'Kopi dicampur dengan rasa kecap', 'Makanan', 1000, 200, '2010');
+insert into produk values ('PRK035', 'Veldom.clo Blazer', 'Jas exclusive dari veldom', 'jas', 400000, 10, '2003');
+insert into produk values ('PRK036', 'ZHD.clo kuat kadek', 'Baju hasil desainer ternama', 'Baju', 80000, 25, '2007');
+insert into produk values ('PRK037', 'Veldom.clo Beegees', 'kemeja veldom anniversary', 'Kemeja', 200000, 25, '2003');
+insert into produk values ('PRK038', 'Expost 2k17', 'Baju special tahun baru 2017', 'Baju', 100000, 100, '2003');
+insert into produk values ('PRK039', 'Blue Tent', 'Sepatu untuk wanita sholehah', 'Sepatu', 200000, 25, '2007');
+insert into produk values ('PRK040', 'ZHD.clo Ulin Skuy', 'Baju hasil desainer ternama', 'Baju', 100000, 25, '2007');
+
+INSERT INTO MENGORDER (ID_ORDER,ID_PRODUK,ID_PEMBELI)VALUES('ORD001','PRK001','PBELI01');
+INSERT INTO MENGORDER (ID_ORDER,ID_PRODUK,ID_PEMBELI)VALUES('ORD002','PRK002','PBELI02');
+INSERT INTO MENGORDER (ID_ORDER,ID_PRODUK,ID_PEMBELI)VALUES('ORD003','PRK003','PBELI03');
+INSERT INTO MENGORDER (ID_ORDER,ID_PRODUK,ID_PEMBELI)VALUES('ORD004','PRK004','PBELI04');
+INSERT INTO MENGORDER (ID_ORDER,ID_PRODUK,ID_PEMBELI)VALUES('ORD005','PRK005','PBELI05');
+INSERT INTO MENGORDER (ID_ORDER,ID_PRODUK,ID_PEMBELI)VALUES('ORD006','PRK006','PBELI06');
+INSERT INTO MENGORDER (ID_ORDER,ID_PRODUK,ID_PEMBELI)VALUES('ORD007','PRK007','PBELI07');
+INSERT INTO MENGORDER (ID_ORDER,ID_PRODUK,ID_PEMBELI)VALUES('ORD008','PRK008','PBELI08');
+INSERT INTO MENGORDER (ID_ORDER,ID_PRODUK,ID_PEMBELI)VALUES('ORD009','PRK009','PBELI09');
+INSERT INTO MENGORDER (ID_ORDER,ID_PRODUK,ID_PEMBELI)VALUES('ORD010','PRK010','PBELI10');
+INSERT INTO MENGORDER (ID_ORDER,ID_PRODUK,ID_PEMBELI)VALUES('ORD011','PRK011','PBELI01');
+INSERT INTO MENGORDER (ID_ORDER,ID_PRODUK,ID_PEMBELI)VALUES('ORD012','PRK020','PBELI03');
+INSERT INTO MENGORDER (ID_ORDER,ID_PRODUK,ID_PEMBELI)VALUES('ORD013','PRK013','PBELI03');
+INSERT INTO MENGORDER (ID_ORDER,ID_PRODUK,ID_PEMBELI)VALUES('ORD014','PRK013','PBELI03');
+INSERT INTO MENGORDER (ID_ORDER,ID_PRODUK,ID_PEMBELI)VALUES('ORD015','PRK013','PBELI10');
+INSERT INTO MENGORDER (ID_ORDER,ID_PRODUK,ID_PEMBELI)VALUES('ORD016','PRK016','PBELI06');
+INSERT INTO MENGORDER (ID_ORDER,ID_PRODUK,ID_PEMBELI)VALUES('ORD017','PRK017','PBELI07');
+INSERT INTO MENGORDER (ID_ORDER,ID_PRODUK,ID_PEMBELI)VALUES('ORD018','PRK020','PBELI10');
+INSERT INTO MENGORDER (ID_ORDER,ID_PRODUK,ID_PEMBELI)VALUES('ORD019','PRK020','PBELI09');
+INSERT INTO MENGORDER (ID_ORDER,ID_PRODUK,ID_PEMBELI)VALUES('ORD020','PRK020','PBELI10');
+
+INSERT INTO MENGORDER (ID_ORDER,ID_PRODUK,ID_PEMBELI)VALUES('ORD021','PRK001','PBELI10');
+INSERT INTO MENGORDER (ID_ORDER,ID_PRODUK,ID_PEMBELI)VALUES('ORD022','PRK002','PBELI09');
+INSERT INTO MENGORDER (ID_ORDER,ID_PRODUK,ID_PEMBELI)VALUES('ORD023','PRK003','PBELI08');
+INSERT INTO MENGORDER (ID_ORDER,ID_PRODUK,ID_PEMBELI)VALUES('ORD024','PRK001','PBELI07');
+INSERT INTO MENGORDER (ID_ORDER,ID_PRODUK,ID_PEMBELI)VALUES('ORD025','PRK002','PBELI06');
+INSERT INTO MENGORDER (ID_ORDER,ID_PRODUK,ID_PEMBELI)VALUES('ORD026','PRK003','PBELI05');
+INSERT INTO MENGORDER (ID_ORDER,ID_PRODUK,ID_PEMBELI)VALUES('ORD027','PRK001','PBELI04');
+INSERT INTO MENGORDER (ID_ORDER,ID_PRODUK,ID_PEMBELI)VALUES('ORD028','PRK002','PBELI03');
+INSERT INTO MENGORDER (ID_ORDER,ID_PRODUK,ID_PEMBELI)VALUES('ORD029','PRK003','PBELI02');
+INSERT INTO MENGORDER (ID_ORDER,ID_PRODUK,ID_PEMBELI)VALUES('ORD030','PRK002','PBELI01');
+
+INSERT INTO MENGORDER (ID_ORDER,ID_PRODUK,ID_PEMBELI)VALUES('ORD031','PRK004','PBELI01');
+INSERT INTO MENGORDER (ID_ORDER,ID_PRODUK,ID_PEMBELI)VALUES('ORD032','PRK005','PBELI02');
+INSERT INTO MENGORDER (ID_ORDER,ID_PRODUK,ID_PEMBELI)VALUES('ORD033','PRK006','PBELI03');
+INSERT INTO MENGORDER (ID_ORDER,ID_PRODUK,ID_PEMBELI)VALUES('ORD034','PRK004','PBELI04');
+INSERT INTO MENGORDER (ID_ORDER,ID_PRODUK,ID_PEMBELI)VALUES('ORD035','PRK005','PBELI05');
+INSERT INTO MENGORDER (ID_ORDER,ID_PRODUK,ID_PEMBELI)VALUES('ORD036','PRK006','PBELI06');
+INSERT INTO MENGORDER (ID_ORDER,ID_PRODUK,ID_PEMBELI)VALUES('ORD037','PRK004','PBELI07');
+INSERT INTO MENGORDER (ID_ORDER,ID_PRODUK,ID_PEMBELI)VALUES('ORD038','PRK005','PBELI08');
+INSERT INTO MENGORDER (ID_ORDER,ID_PRODUK,ID_PEMBELI)VALUES('ORD039','PRK006','PBELI09');
+INSERT INTO MENGORDER (ID_ORDER,ID_PRODUK,ID_PEMBELI)VALUES('ORD040','PRK002','PBELI10');
+
+INSERT INTO MENGORDER (ID_ORDER,ID_PRODUK,ID_PEMBELI)VALUES('ORD041','PRK010','PBELI01');
+INSERT INTO MENGORDER (ID_ORDER,ID_PRODUK,ID_PEMBELI)VALUES('ORD042','PRK009','PBELI02');
+INSERT INTO MENGORDER (ID_ORDER,ID_PRODUK,ID_PEMBELI)VALUES('ORD043','PRK008','PBELI03');
+INSERT INTO MENGORDER (ID_ORDER,ID_PRODUK,ID_PEMBELI)VALUES('ORD044','PRK007','PBELI04');
+INSERT INTO MENGORDER (ID_ORDER,ID_PRODUK,ID_PEMBELI)VALUES('ORD045','PRK006','PBELI05');
+INSERT INTO MENGORDER (ID_ORDER,ID_PRODUK,ID_PEMBELI)VALUES('ORD046','PRK005','PBELI06');
+INSERT INTO MENGORDER (ID_ORDER,ID_PRODUK,ID_PEMBELI)VALUES('ORD047','PRK004','PBELI07');
+INSERT INTO MENGORDER (ID_ORDER,ID_PRODUK,ID_PEMBELI)VALUES('ORD048','PRK003','PBELI08');
+INSERT INTO MENGORDER (ID_ORDER,ID_PRODUK,ID_PEMBELI)VALUES('ORD049','PRK002','PBELI09');
+INSERT INTO MENGORDER (ID_ORDER,ID_PRODUK,ID_PEMBELI)VALUES('ORD050','PRK001','PBELI10');
+
+INSERT INTO TRANSAKSI VALUES ('BLI001',150000,'Transfer','Jl. Mitrabatik','ORD001','KUR001');
+INSERT INTO TRANSAKSI VALUES ('BLI002',250000,'Transfer','Jl. Setia Budi','ORD002','KUR002');
+INSERT INTO TRANSAKSI VALUES ('BLI003',300000,'Transfer','Jl. Bojong Soang','ORD003','KUR003');
+INSERT INTO TRANSAKSI VALUES ('BLI004',50000,'Transfer','Jl. Sukabirus','ORD004','KUR004');
+INSERT INTO TRANSAKSI VALUES ('BLI005',200000,'Transfer','Jl. Sukapura','ORD005','KUR005');
+INSERT INTO TRANSAKSI VALUES ('BLI006',250000,'Transfer','Jl. A.H Nasution','ORD006','KUR006');
+INSERT INTO TRANSAKSI VALUES ('BLI007',450000,'Transfer','Jl. Setia Budi','ORD007','KUR007');
+INSERT INTO TRANSAKSI VALUES ('BLI008',350000,'Transfer','Jl. Setia Budi','ORD008','KUR008');
+INSERT INTO TRANSAKSI VALUES ('BLI009',400000,'Transfer','Jl. Suksbirus','ORD009','KUR009');
+INSERT INTO TRANSAKSI VALUES ('BLI010',245000,'Transfer','Jl. Cijambe','ORD010','KUR010');
+INSERT INTO TRANSAKSI VALUES ('BLI011',150000,'COD','Jl. Mitrabatik','ORD011',null);
+INSERT INTO TRANSAKSI VALUES ('BLI012',250000,'COD','Jl. Setia Budi','ORD012',null);
+INSERT INTO TRANSAKSI VALUES ('BLI013',300000,'Transfer','Jl. Bojong Soang','ORD013','KUR003');
+INSERT INTO TRANSAKSI VALUES ('BLI014',50000,'Transfer','Jl. Sukabirus','ORD014','KUR004');
+INSERT INTO TRANSAKSI VALUES ('BLI015',200000,'Transfer','Jl. Sukapura','ORD015','KUR005');
+INSERT INTO TRANSAKSI VALUES ('BLI016',250000,'Transfer','Jl. A.H Nasution','ORD016','KUR006');
+INSERT INTO TRANSAKSI VALUES ('BLI017',450000,'Transfer','Jl. Setia Budi','ORD017','KUR007');
+INSERT INTO TRANSAKSI VALUES ('BLI018',350000,'COD','Jl. Setia Budi','ORD018',null);
+INSERT INTO TRANSAKSI VALUES ('BLI019',400000,'Transfer','Jl. Suksbirus','ORD019','KUR009');
+INSERT INTO TRANSAKSI VALUES ('BLI020',245000,'Transfer','Jl. Cijambe','ORD020','KUR010');
+
+INSERT INTO TRANSAKSI (ID_TRANSAKSI,TOTAL_BAYAR,METODE_BAYAR,ALAMAT_PENGIRIMAN,ID_ORDER,ID_KURIR)
+VALUES ('BLI021',163000,'Transfer','Jl. Cijambe','ORD021','KUR009');
+INSERT INTO TRANSAKSI (ID_TRANSAKSI,TOTAL_BAYAR,METODE_BAYAR,ALAMAT_PENGIRIMAN,ID_ORDER,ID_KURIR)
+VALUES ('BLI022',98000,'Transfer','Jl. Suksbirus','ORD022','KUR009');
+INSERT INTO TRANSAKSI (ID_TRANSAKSI,TOTAL_BAYAR,METODE_BAYAR,ALAMAT_PENGIRIMAN,ID_ORDER,ID_KURIR)
+VALUES ('BLI023',103000,'Transfer','Jl. Setia Budi','ORD023','KUR009');
+INSERT INTO TRANSAKSI (ID_TRANSAKSI,TOTAL_BAYAR,METODE_BAYAR,ALAMAT_PENGIRIMAN,ID_ORDER,ID_KURIR)
+VALUES ('BLI024',73000,'Transfer','Jl. Setia Budi','ORD024','KUR009');
+INSERT INTO TRANSAKSI (ID_TRANSAKSI,TOTAL_BAYAR,METODE_BAYAR,ALAMAT_PENGIRIMAN,ID_ORDER,ID_KURIR)
+VALUES ('BLI025',373000,'Transfer','Jl. A.H Nasution','ORD025','KUR009');
+INSERT INTO TRANSAKSI (ID_TRANSAKSI,TOTAL_BAYAR,METODE_BAYAR,ALAMAT_PENGIRIMAN,ID_ORDER,ID_KURIR)
+VALUES ('BLI026',323000,'Transfer','Jl. Sukapura','ORD026','KUR009');
+INSERT INTO TRANSAKSI (ID_TRANSAKSI,TOTAL_BAYAR,METODE_BAYAR,ALAMAT_PENGIRIMAN,ID_ORDER,ID_KURIR)
+VALUES ('BLI027',363000,'Transfer','Jl. Sukabirus','ORD027','KUR009');
+INSERT INTO TRANSAKSI (ID_TRANSAKSI,TOTAL_BAYAR,METODE_BAYAR,ALAMAT_PENGIRIMAN,ID_ORDER,ID_KURIR)
+VALUES ('BLI028',103000,'Transfer','Jl. Bojong Soang','ORD028','KUR009');
+INSERT INTO TRANSAKSI (ID_TRANSAKSI,TOTAL_BAYAR,METODE_BAYAR,ALAMAT_PENGIRIMAN,ID_ORDER,ID_KURIR)
+VALUES ('BLI029',83000,'Transfer','Jl. Setia Budi','ORD029','KUR009');
+INSERT INTO TRANSAKSI (ID_TRANSAKSI,TOTAL_BAYAR,METODE_BAYAR,ALAMAT_PENGIRIMAN,ID_ORDER,ID_KURIR)
+VALUES ('BLI030',86000,'Transfer','Jl. Mitrabatik','ORD030','KUR006');
+INSERT INTO TRANSAKSI (ID_TRANSAKSI,TOTAL_BAYAR,METODE_BAYAR,ALAMAT_PENGIRIMAN,ID_ORDER,ID_KURIR)
+VALUES ('BLI031',75000,'Transfer','Jl. Mitrabatik','ORD031','KUR002');
+INSERT INTO TRANSAKSI (ID_TRANSAKSI,TOTAL_BAYAR,METODE_BAYAR,ALAMAT_PENGIRIMAN,ID_ORDER,ID_KURIR)
+VALUES ('BLI032',372000,'Transfer','Jl. Setia Budi','ORD032','KUR005');
+INSERT INTO TRANSAKSI (ID_TRANSAKSI,TOTAL_BAYAR,METODE_BAYAR,ALAMAT_PENGIRIMAN,ID_ORDER,ID_KURIR)
+VALUES ('BLI033',312000,'Transfer','Jl. Bojong Soang','ORD033','KUR005');
+INSERT INTO TRANSAKSI (ID_TRANSAKSI,TOTAL_BAYAR,METODE_BAYAR,ALAMAT_PENGIRIMAN,ID_ORDER,ID_KURIR)
+VALUES ('BLI034',75000,'Transfer','Jl. Sukabirus','ORD034','KUR002');
+INSERT INTO TRANSAKSI (ID_TRANSAKSI,TOTAL_BAYAR,METODE_BAYAR,ALAMAT_PENGIRIMAN,ID_ORDER,ID_KURIR)
+VALUES ('BLI035',372000,'Transfer','Jl. Sukapura','ORD035','KUR005');
+INSERT INTO TRANSAKSI (ID_TRANSAKSI,TOTAL_BAYAR,METODE_BAYAR,ALAMAT_PENGIRIMAN,ID_ORDER,ID_KURIR)
+VALUES ('BLI036',312000,'Transfer','Jl. A.H Nasution','ORD036','KUR005');
+INSERT INTO TRANSAKSI (ID_TRANSAKSI,TOTAL_BAYAR,METODE_BAYAR,ALAMAT_PENGIRIMAN,ID_ORDER,ID_KURIR)
+VALUES ('BLI037',75000,'Transfer','Jl. Setia Budi','ORD037','KUR002');
+INSERT INTO TRANSAKSI (ID_TRANSAKSI,TOTAL_BAYAR,METODE_BAYAR,ALAMAT_PENGIRIMAN,ID_ORDER,ID_KURIR)
+VALUES ('BLI038',372000,'Transfer','Jl. Setia Budi','ORD038','KUR005');
+INSERT INTO TRANSAKSI (ID_TRANSAKSI,TOTAL_BAYAR,METODE_BAYAR,ALAMAT_PENGIRIMAN,ID_ORDER,ID_KURIR)
+VALUES ('BLI039',312000,'Transfer','Jl. Suksbirus','ORD039','KUR005');
+INSERT INTO TRANSAKSI (ID_TRANSAKSI,TOTAL_BAYAR,METODE_BAYAR,ALAMAT_PENGIRIMAN,ID_ORDER,ID_KURIR)
+VALUES ('BLI040',100000,'Transfer','Jl. Cijambe','ORD040','KUR002');
+INSERT INTO TRANSAKSI (ID_TRANSAKSI,TOTAL_BAYAR,METODE_BAYAR,ALAMAT_PENGIRIMAN,ID_ORDER,ID_KURIR)
+VALUES ('BLI041',113000,'Transfer','Jl. Mitrabatik','ORD011','KUR009');
+INSERT INTO TRANSAKSI (ID_TRANSAKSI,TOTAL_BAYAR,METODE_BAYAR,ALAMAT_PENGIRIMAN,ID_ORDER,ID_KURIR)
+VALUES ('BLI042',83000,'Transfer','Jl. Setia Budi','ORD012','KUR009');
+INSERT INTO TRANSAKSI (ID_TRANSAKSI,TOTAL_BAYAR,METODE_BAYAR,ALAMAT_PENGIRIMAN,ID_ORDER,ID_KURIR)
+VALUES ('BLI043',103000,'Transfer','Jl. Bojong Soang','ORD013','KUR009');
+INSERT INTO TRANSAKSI (ID_TRANSAKSI,TOTAL_BAYAR,METODE_BAYAR,ALAMAT_PENGIRIMAN,ID_ORDER,ID_KURIR)
+VALUES ('BLI044',363000,'Transfer','Jl. Sukabirus','ORD014','KUR009');
+INSERT INTO TRANSAKSI (ID_TRANSAKSI,TOTAL_BAYAR,METODE_BAYAR,ALAMAT_PENGIRIMAN,ID_ORDER,ID_KURIR)
+VALUES ('BLI045',323000,'Transfer','Jl. Sukapura','ORD015','KUR009');
+INSERT INTO TRANSAKSI (ID_TRANSAKSI,TOTAL_BAYAR,METODE_BAYAR,ALAMAT_PENGIRIMAN,ID_ORDER,ID_KURIR)
+VALUES ('BLI046',373000,'Transfer','Jl. A.H Nasution','ORD016','KUR009');
+INSERT INTO TRANSAKSI (ID_TRANSAKSI,TOTAL_BAYAR,METODE_BAYAR,ALAMAT_PENGIRIMAN,ID_ORDER,ID_KURIR)
+VALUES ('BLI047',73000,'Transfer','Jl. Setia Budi','ORD017','KUR009');
+INSERT INTO TRANSAKSI (ID_TRANSAKSI,TOTAL_BAYAR,METODE_BAYAR,ALAMAT_PENGIRIMAN,ID_ORDER,ID_KURIR)
+VALUES ('BLI048',103000,'Transfer','Jl. Setia Budi','ORD018','KUR009');
+INSERT INTO TRANSAKSI (ID_TRANSAKSI,TOTAL_BAYAR,METODE_BAYAR,ALAMAT_PENGIRIMAN,ID_ORDER,ID_KURIR)
+VALUES ('BLI049',98000,'Transfer','Jl. Suksbirus','ORD019','KUR009');
+INSERT INTO TRANSAKSI (ID_TRANSAKSI,TOTAL_BAYAR,METODE_BAYAR,ALAMAT_PENGIRIMAN,ID_ORDER,ID_KURIR)
+VALUES ('BLI050',163000,'Transfer','Jl. Cijambe','ORD020','KUR009');
+
+INSERT INTO REVIEW VALUES ('RVW001',4,'20 Jun 2018','Bagus, Pertahankan','BLI001');
+INSERT INTO REVIEW VALUES ('RVW002',3,'21 Jul 2018','Kurang Memuaskan','BLI002');
+INSERT INTO REVIEW VALUES ('RVW003',4,'22 Jun 2018','Bagus, Pertahankan','BLI003');
+INSERT INTO REVIEW VALUES ('RVW004',5,'23 Feb 2018','Bagus, Pertahankan','BLI003');
+INSERT INTO REVIEW VALUES ('RVW005',4,'24 Feb 2018','Bagus, Pertahankan','BLI005');
+INSERT INTO REVIEW VALUES ('RVW006',4,'24 Jan 2018','Bagus, Pertahankan','BLI006');
+INSERT INTO REVIEW VALUES ('RVW007',2,'24 Jan 2018','Kurang Memuaskan','BLI007');
+INSERT INTO REVIEW VALUES ('RVW008',4,'25 Jan 2018','Bagus, Pertahankan','BLI008');
+INSERT INTO REVIEW VALUES ('RVW009',5,'25 Jan 2018','Bagus, Pertahankan','BLI009');
+INSERT INTO REVIEW VALUES ('RVW010',4,'25 Oct 2018','Bagus, Pertahankan','BLI010');
+INSERT INTO REVIEW VALUES ('RVW011',4,'20 Jun 2018','Bagus, Pertahankan','BLI011');
+INSERT INTO REVIEW VALUES ('RVW012',3,'21 Jun 2018','Kurang Memuaskan','BLI012');
+INSERT INTO REVIEW VALUES ('RVW013',4,'22 Jun 2018','Bagus, Pertahankan','BLI013');
+INSERT INTO REVIEW VALUES ('RVW014',5,'23 Feb 2018','Bagus, Pertahankan','BLI013');
+INSERT INTO REVIEW VALUES ('RVW015',4,'24 Oct 2018','Bagus, Pertahankan','BLI015');
+INSERT INTO REVIEW VALUES ('RVW016',4,'24 Apr 2018','Bagus, Pertahankan','BLI016');
+INSERT INTO REVIEW VALUES ('RVW017',2,'24 Jan 2018','Kurang Memuaskan','BLI017');
+INSERT INTO REVIEW VALUES ('RVW018',4,'25 Jan 2018','Bagus, Pertahankan','BLI018');
+INSERT INTO REVIEW VALUES ('RVW019',5,'25 Aug 2018','Bagus, Pertahankan','BLI019');
+INSERT INTO REVIEW VALUES ('RVW020',4,'25 Oct 2018','Bagus, Pertahankan','BLI020');
+INSERT INTO REVIEW VALUES ('RVW021',4,'16 Oct 2018','Bagus, Pertahankan','BLI021');
+INSERT INTO REVIEW VALUES ('RVW022',4,'20 May 2018','Bagus, Pertahankan','BLI022');
+INSERT INTO REVIEW VALUES ('RVW023',5,'14 May 2018','Bagus, Pertahankan','BLI023');
+INSERT INTO REVIEW VALUES ('RVW024',5,'16 Dec 2018','Bagus, Pertahankan','BLI024');
+INSERT INTO REVIEW VALUES ('RVW025',4,'23 Dec 2018','Bagus, Pertahankan','BLI025');
+INSERT INTO REVIEW VALUES ('RVW026',4,'06 Dec 2018','Bagus, Pertahankan','BLI026');
+INSERT INTO REVIEW VALUES ('RVW027',5,'09 Apr 2018','Bagus, Pertahankan','BLI027');
+INSERT INTO REVIEW VALUES ('RVW028',5,'24 Mar 2018','Bagus, Pertahankan','BLI028');
+INSERT INTO REVIEW VALUES ('RVW029',5,'15 Mar 2018','Bagus, Pertahankan','BLI029');
+INSERT INTO REVIEW VALUES ('RVW030',5,'21 Jan 2018','Bagus, Pertahankan','BLI030');
+INSERT INTO REVIEW VALUES ('RVW031',3,'28 Dec 2018','Kurang Memuaskan','BLI031');
+INSERT INTO REVIEW VALUES ('RVW032',2,'03 Apr 2018','Kurang Memuaskan','BLI032');
+INSERT INTO REVIEW VALUES ('RVW033',4,'15 Oct 2018','Bagus, Pertahankan','BLI033');
+INSERT INTO REVIEW VALUES ('RVW034',4,'07 jul 2018','Bagus, Pertahankan','BLI034');
+INSERT INTO REVIEW VALUES ('RVW035',3,'25 May 2018','Kurang Memuaskan','BLI035');
+INSERT INTO REVIEW VALUES ('RVW036',4,'23 Aug 2018','Bagus, Pertahankan','BLI036');
+INSERT INTO REVIEW VALUES ('RVW037',5,'27 May 2018','Bagus, Pertahankan','BLI037');
+INSERT INTO REVIEW VALUES ('RVW038',5,'12 Mar 2018','Bagus, Pertahankan','BLI038');
+INSERT INTO REVIEW VALUES ('RVW039',4,'30 Mar 2018','Bagus, Pertahankan','BLI039');
+INSERT INTO REVIEW VALUES ('RVW040',4,'06 Jan 2018','Bagus, Pertahankan','BLI040');
+
+//untuk diskonan//
+SELECT ID_Produk , Harga_Produk , HARGA_PRODUK-(Harga_Produk*0.15 ) AS Harga_Diskon
+FROM PRODUK;
+
+//jumlahin harga//
+SELECT COUNT( ID_Produk) AS Banyak_Produk ,ID_Toko 
+FROM PRODUK
+GROUP BY ID_toko;
+
+//total harga semua produk//
+SELECT SUM (HARGA_PRODUK)AS TOTAL_HARGA,ID_TOKO
+FROM PRODUK
+GROUP BY ID_toko;
+
+//RATA2 HARGA//
+SELECT AVG (HARGA_PRODUK) AS TOTAL_HARGA, ID_TOKO
+FROM PRODUK
+GROUP BY ID_Toko;
+
+//nampilin salah satu produk//
+SELECT * FROM PRODUK WHERE VARIANSI_PRODUK = 'Sepatu' ;
+
+//NAMPILIN NAMA 4 HURUF SAJA//
+SELECT*
+FROM AKUN 
+WHERE (LENGTH (NAMA) = 4); 
+
+//Query menampilkan nama pembeli beserta barang yang dibeli dan juga komentarnya, dengan rating yang diberi pembeli yaitu lebih dari 3//
+SELECT DISTINCT akun.nama, produk.nama_produk, review.komentar
+FROM akun
+JOIN pembeli ON pembeli.username = akun.username
+JOIN mengorder ON mengorder.id_pembeli = pembeli.id_pembeli
+JOIN produk ON produk.id_produk = mengorder.id_produk
+JOIN transaksi ON transaksi.id_order = mengorder.id_order
+JOIN review ON review.id_transaksi = transaksi.id_transaksi
+WHERE review.rating IN (SELECT rating FROM review WHERE rating > '3');
+
+
+//Query menampilkan pembeli yang paling banyak melakukan transaksi beserta dengan total bayarnya secara keseluruhan//
+select pembeli.id_pembeli ||' Dengan nama '|| akun.nama ||' melakukan transaksi sebanyak '|| count(mengorder.id_pembeli)
+||' transaksi, dengan total bayar transaksi secara keseluruhan '|| sum(transaksi.total_bayar)
+"Pembeli total bayar terbanyak" from akun
+join pembeli on (akun.username=pembeli.username)
+join mengorder on (pembeli.id_pembeli=mengorder.id_pembeli)
+join transaksi on (mengorder.id_order=transaksi.id_order)
+having count(mengorder.id_pembeli) = any (select max(count(mengorder.id_pembeli)) from akun
+join pembeli on (akun.username=pembeli.username)
+join mengorder on (pembeli.id_pembeli=mengorder.id_pembeli)
+join transaksi on (mengorder.id_order=transaksi.id_order)group by mengorder.id_pembeli)
+group by pembeli.id_pembeli,akun.nama;
+
+
+//Query menampilkan nama pembeli dan jumlah poin yang poinnya lebih besar dari 12//
+SELECT AKUN.NAMA,PEMBELI.POIN_PEMBELI
+FROM PEMBELI
+JOIN AKUN ON (AKUN.USERNAME=PEMBELI.USERNAME)
+WHERE PEMBELI.POIN_PEMBELI>'12';
+
+
+//Query menampilkan banyaknya rating yang diterima oleh penjual//
+select penjual.id_toko, penjual.nama_toko, sum(review.rating) as "TOTAL RATING"
+from akun
+join penjual on (akun.username = penjual.username)
+join produk on (penjual.id_toko = produk.id_toko)
+join mengorder on (produk.id_produk = mengorder.id_produk)
+join transaksi on (mengorder.id_order = transaksi.id_order)
+join review on (transaksi.id_transaksi = review.id_transaksi) 
+group by penjual.id_toko, penjual.nama_toko
+order by sum(review.rating) desc;
+
+
+
+//Query menampilkan banyaknya barang yang telah terjual oleh penjual//
+
+select penjual.id_toko, penjual.nama_toko, count(produk.id_produk) as "Barang Terjual"
+from akun
+join penjual on (akun.username = penjual.username)
+join produk on (penjual.id_toko = produk.id_toko)
+join mengorder on (produk.id_produk = mengorder.id_produk)
+join transaksi on (mengorder.id_order = transaksi.id_order)
+join review on (transaksi.id_transaksi = review.id_transaksi) 
+group by penjual.id_toko, penjual.nama_toko;
